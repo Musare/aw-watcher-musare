@@ -13,7 +13,7 @@ An extension for Musare forked from https://github.com/ActivityWatch/aw-watcher-
 ### Using for the first time
 
 1. Once the extension is installed, open the extension popup by clicking on the icon (top right in most browsers).  
-2. Fill in a list of hostnames that the extension should work on (e.g. localhost,3. musare.com, etc.) seperated with a comma.  
+2. Fill in a list of hostnames that the extension should work on (e.g. localhost, musare.com, etc.) seperated with a comma.  
 3. In the hostname field, put in the hostname of your computer.  
 
 ### How it works
