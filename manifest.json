@@ -1,10 +1,10 @@
 {
   "manifest_version": 2,
 
-  "name": "ActivityWatch Web Watcher",
-  "short_name": "ActivityWatch",
-  "description": "Log the current tab and your browser activity with ActivityWatch.",
-  "version": "0.4.3",
+  "name": "ActivityWatch Musare Watcher",
+  "short_name": "ActivityWatchMusare",
+  "description": "Log the Musare media info with ActivityWatch.",
+  "version": "0.1.0",
   "icons": {
     "128": "media/logo/logo-128.png"
   },
@@ -16,7 +16,7 @@
 
   "browser_specific_settings": {
     "gecko": {
-      "id": "{ef87d84c-2127-493f-b952-5b4e744245bc}"
+      "id": "{ef87d84c-2127-493f-b952-5b4e744245bd}"
     }
   },
 
@@ -27,11 +27,20 @@
     "persistent": false
   },
 
+  "content_scripts": [
+		{
+			"js": [
+				"src/content.js"
+			],
+			"matches": [
+				"http://*/*"
+			],
+			"run_at": "document_idle"
+		}
+  ],
+
   "permissions": [
-    "tabs",
-    "alarms",
     "notifications",
-    "activeTab",
     "storage",
     "http://localhost:5600/api/*",
     "http://localhost:5666/api/*"

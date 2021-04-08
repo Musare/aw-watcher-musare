@@ -1,12 +1,12 @@
 {
-    "name": "aw-watcher-web",
+    "name": "aw-watcher-musare",
     "license": "MPL-2.0",
     "bugs": {
-        "url": "https://github.com/ActivityWatch/aw-watcher-web/issues"
+        "url": "https://github.com/Musare/aw-watcher-musare/issues"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/ActivityWatch/aw-watcher-web.git"
+        "url": "git+https://github.com/Musare/aw-watcher-musare.git"
     },
     "dependencies": {
         "browserify": "^16.5.2",

@@ -1,16 +1,3 @@
-# aw-watcher-web
+# aw-watcher-musare
 
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/nglaklhklhcoonedhgnpgddginnjdadi.svg)][chrome]
-[![Mozilla Add-on](https://img.shields.io/amo/v/aw-watcher-web.svg)][firefox]
-
-A cross-browser WebExtension that serves as a web browser watcher for [ActivityWatch][activitywatch].
-
-Install for your browser:
-
- - [Chrome][chrome]
- - [Firefox][firefox]
-
-
-[activitywatch]: https://github.com/ActivityWatch/activitywatch
-[firefox]: https://addons.mozilla.org/en-US/firefox/addon/aw-watcher-web/
-[chrome]: https://chrome.google.com/webstore/detail/nglaklhklhcoonedhgnpgddginnjdadi/
+An extension for Musare forked from https://github.com/ActivityWatch/aw-watcher-web - modified to get song events from a Musare instance and passing it on to ActivityWatch.

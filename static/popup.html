@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>ActivityWatch Popup</title>
+  <title>ActivityWatch Musare Popup</title>
 
   <link href="./style.css" rel="stylesheet" type="text/css">
 
@@ -18,19 +18,6 @@
     <!-- Filled by JS -->
   </div>
 
-  <div>
-    <a id="webui-link" href="http://localhost:5600/" target="_blank">
-      <span class="button">
-        <b>Open web UI</b>
-      </span>
-    </a>
-    <a href="https://forum.activitywatch.net/" target="_blank">
-      <span class="button">
-        <b>Visit forum</b>
-      </span>
-    </a>
-  </div>
-
   <table>
     <tr>
       <th align="right">Enabled:</th>
@@ -38,6 +25,24 @@
         <input type="checkbox" id="status-enabled-checkbox">
           <!-- Filled by JS -->
         </input>
+      </td>
+    </tr>
+
+    <tr>
+      <th align="right">Allowed hostnames:</th>
+      <td>
+		<input id="allowed-hostnames-input">
+		  <!-- Filled by JS -->
+		</input>
+      </td>
+    </tr>
+	
+	  <tr>
+      <th align="right">Hostname:</th>
+      <td>
+		<input id="hostname-input">
+		  <!-- Filled by JS -->
+		</input>
       </td>
     </tr>
 
@@ -55,15 +60,6 @@
       </td>
     </tr>
   </table>
-
-  <hr>
-
-  <small>
-    <p>
-      If you find any bugs with this watcher, please report them
-      <a href="https://github.com/ActivityWatch/aw-watcher-web/issues">here</a>.
-    </p>
-  </small>
 </body>
 
 </html>

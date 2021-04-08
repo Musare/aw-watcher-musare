@@ -16,7 +16,7 @@ function emitNotification(title, message) {
 function logHttpError(error) {
   // No response property for network errors
   if (error.response) {
-    console.error("Status code: " + err.response.status + ", response: " + err.response.data.message);
+    console.error("Status code: " + error.response.status + ", response: " + error.response.data.message);
   } else {
     console.error("Unexpected error: " + error);
   }
@@ -26,32 +26,33 @@ var client = {
   testing: null,
   awc: null,
   lastSyncSuccess: true,
+  allowedHostnames: null,
+  hostname: null,
 
   setup: function() {
     console.log("Setting up client");
     // Check if in dev mode
     chrome.management.getSelf(function(info) {
       client.testing = info.installType === "development";
+      client.testing = false;
       console.log("testing: " + client.testing);
 
-      client.awc = new AWClient("aw-client-web", {testing: client.testing});
-      client.createBucket();
+      client.awc = new AWClient("aw-client-musare", {testing: client.testing});
 
       // Needed in order to show testing information in popup
       chrome.storage.local.set({"testing": client.testing, "baseURL": client.awc.baseURL});
+
+      chrome.storage.local.get(["allowedHostnames", "hostname"], function(obj) {
+        client.allowedHostnames = obj.allowedHostnames;
+        client.hostname = obj.hostname;
+        chrome.storage.local.set({"bucketId": client.getBucketId()});
+        client.createBucket();
+      });
     });
   },
 
-  getBrowserName: function() {
-    var agent_parsed = ua_parser(navigator.userAgent);
-    var browsername = agent_parsed.browser.name;
-    return browsername.toLowerCase();
-  },
-
   getBucketId: function() {
-    // TODO: This works for Chrome and Firefox, but is a bit hacky and wont work in the general case
-    var browserName = client.getBrowserName();
-    return "aw-watcher-web-" + browserName.toLowerCase();
+    return "aw-watcher-musare";
   },
 
   updateSyncStatus: function(){
@@ -62,16 +63,25 @@ var client = {
   },
 
   createBucket: function(){
-    if (this.testing === null)
+    if (this.testing === null) {
+      console.log("Not creating bucket, testing is null!");
       return;
-    // TODO: We might want to get the hostname somehow, maybe like this:
-    // https://stackoverflow.com/questions/28223087/how-can-i-allow-firefox-or-chrome-to-read-a-pcs-hostname-or-other-assignable
+    }
+    
+    if (this.allowedHostnames === "" || this.allowedHostnames === null || this.allowedHostnames === undefined) {
+      console.log("Not creating bucket, allowed hostnames is not set!");
+      return;
+    }
+    if (this.hostname === "" || this.hostname === null || this.hostname === undefined) {
+      console.log("Not creating bucket, hostname is not set!");
+      return;
+    }
+
     var bucket_id = this.getBucketId();
-    var eventtype = "web.tab.current";
-    var hostname = "unknown";
+    var eventtype = "musare.song.playing";
 
     function attempt() {
-      return client.awc.ensureBucket(bucket_id, eventtype, hostname)
+      return client.awc.ensureBucket(bucket_id, eventtype, client.hostname)
         .catch( (err) => {
           console.error("Failed to create bucket, retrying...");
           logHttpError(err);
@@ -86,6 +96,23 @@ var client = {
   sendHeartbeat: function(timestamp, data, pulsetime) {
     if (this.testing === null)
       return;
+
+    if (this.allowedHostnames === "" || this.allowedHostnames === null || this.allowedHostnames === undefined) {
+      console.log("Not sending heartbeat, allowed hostnames is not set!");
+      emitNotification(
+        "Unable to send event to server",
+        "Allowed hostnames is not set. Please set the allowed hostnames."
+      );
+      return;
+    }
+    if (this.hostname === "" || this.hostname === null || this.hostname === undefined) {
+        console.log("Not sending heartbeat, hostname is not set!");
+        emitNotification(
+          "Unable to send event to server",
+          "Hostname is not set. Please set the hostname."
+        );
+        return;
+    }
 
     var payload = {
         "data": data,
