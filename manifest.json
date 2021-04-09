@@ -4,7 +4,7 @@
   "name": "ActivityWatch Musare Watcher",
   "short_name": "ActivityWatchMusare",
   "description": "Log the Musare media info with ActivityWatch.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "icons": {
     "128": "media/logo/logo-128.png"
   },
@@ -33,7 +33,8 @@
 				"src/content.js"
 			],
 			"matches": [
-				"http://*/*"
+				"http://*/*",
+				"https://*/*"
 			],
 			"run_at": "document_idle"
 		}
