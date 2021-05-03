@@ -1,45 +1,39 @@
 {
   "manifest_version": 2,
-
   "name": "ActivityWatch Musare Watcher",
   "short_name": "ActivityWatchMusare",
   "description": "Log the Musare media info with ActivityWatch.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "icons": {
     "128": "media/logo/logo-128.png"
   },
-
   "browser_action": {
     "default_icon": "media/logo/logo-128.png",
     "default_popup": "static/popup.html"
   },
-
   "browser_specific_settings": {
     "gecko": {
       "id": "{ef87d84c-2127-493f-b952-5b4e744245bd}"
     }
   },
-
   "background": {
     "scripts": [
-        "out/app.js"
+      "out/app.js"
     ],
     "persistent": false
   },
-
   "content_scripts": [
-		{
-			"js": [
-				"src/content.js"
-			],
-			"matches": [
-				"http://*/*",
-				"https://*/*"
-			],
-			"run_at": "document_idle"
-		}
+    {
+      "js": [
+        "src/content.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "run_at": "document_idle"
+    }
   ],
-
   "permissions": [
     "notifications",
     "storage",

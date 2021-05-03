@@ -28,6 +28,8 @@ var client = {
   lastSyncSuccess: true,
   allowedHostnames: null,
   hostname: null,
+  gotData: false,
+  failedHeartbeatsDueToData: 0,
 
   setup: function() {
     console.log("Setting up client");
@@ -46,6 +48,7 @@ var client = {
         client.allowedHostnames = obj.allowedHostnames;
         client.hostname = obj.hostname;
         chrome.storage.local.set({"bucketId": client.getBucketId()});
+        client.gotData = true;
         client.createBucket();
       });
     });
@@ -96,6 +99,18 @@ var client = {
   sendHeartbeat: function(timestamp, data, pulsetime) {
     if (this.testing === null)
       return;
+
+    if (!this.gotData) {
+      console.log("Failed to send heartbeat since data hasn't been loaded yet.");
+      client.failedHeartbeatsDueToData += 1;
+      if (client.failedHeartbeatsDueToData === 3) {
+        emitNotification(
+          "Unable to send event to server",
+          "Haven't received data."
+        );
+      }
+      return;
+    }
 
     if (this.allowedHostnames === "" || this.allowedHostnames === null || this.allowedHostnames === undefined) {
       console.log("Not sending heartbeat, allowed hostnames is not set!");
